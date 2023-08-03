@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
-using P2P.Domain.Options;
+using Domain.Options;
 
-namespace P2P.Api.Options.Authentication;
+namespace Api.Options.Authentication;
 
 public class JwtOptionsSetup : IConfigureOptions<JwtOptions>
 {

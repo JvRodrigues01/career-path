@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using P2P.Domain.Options;
+using Domain.Options;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Domain.Entities.User;
 
 namespace Services.Authentication
 {
@@ -13,6 +14,12 @@ namespace Services.Authentication
         public JwtService(IOptions<JwtOptions> options)
         {
             _options = options.Value;
+        }
+
+        public string GenerateAdmin(User user)
+        {
+            Claim[] claims = GenerateAdminClaims(user);
+            return Generate(claims);
         }
 
         private string Generate(Claim[] claims)
@@ -35,5 +42,12 @@ namespace Services.Authentication
 
             return tokenValue;
         }
+
+        private Claim[] GenerateAdminClaims(User user) =>
+        new Claim[]
+        {
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.UniqueName, user.Name),
+        };
     }
 }

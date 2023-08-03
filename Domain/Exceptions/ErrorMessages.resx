@@ -120,6 +120,9 @@
   <data name="Bad_Request" xml:space="preserve">
     <value>Invalid request, please verify and try again</value>
   </data>
+  <data name="Unable_Login" xml:space="preserve">
+    <value>Unable to authorize your login credentials</value>
+  </data>
   <data name="Unknown_Error" xml:space="preserve">
     <value>Internal Server Error</value>
   </data>

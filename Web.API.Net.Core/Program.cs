@@ -4,12 +4,19 @@ using Infra.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using P2P.Api.Options.Authentication;
+using Scrutor;
 
 var builder = WebApplication.CreateBuilder(args);
 
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.Scan(selector => selector
+    .FromAssemblies(Infra.AssemblyReference.Assembly, Services.AssemblyReference.Assembly)
+    .AddClasses(false)
+    .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+    .AsMatchingInterface()
+    .WithScopedLifetime());
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer();

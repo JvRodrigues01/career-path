@@ -1,4 +1,4 @@
-﻿namespace P2P.Domain.Options;
+﻿namespace Domain.Options;
 
 public class JwtOptions
 {

@@ -1,8 +1,6 @@
 ﻿using Api.Controllers.Abstract;
-using Domain.Dtos;
-using Domain.Dtos.Admin;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
+using Services.Admin;
 
 namespace Api.Controllers
 {
@@ -10,14 +8,8 @@ namespace Api.Controllers
     [ApiController]
     public class AdminController : BaseApiController
     {
-        [HttpPost("/admin/register")]
-        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ServiceResponse<SingleResponse<EmptyResult>>))]
-        public async Task<IActionResult> RegisterUser(AdminSignUpDTO signUpDTO)
+        public AdminController(IUserService userService)
         {
-            if (!ModelState.IsValid)
-                return ApiBadRequest(ModelState);
-
-            return ApiOk();
         }
     }
 }

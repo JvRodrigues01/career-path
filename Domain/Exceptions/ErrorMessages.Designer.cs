@@ -70,6 +70,15 @@ namespace Domain.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to authorize your login credentials.
+        /// </summary>
+        public static string Unable_Login {
+            get {
+                return ResourceManager.GetString("Unable_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Internal Server Error.
         /// </summary>
         public static string Unknown_Error {
