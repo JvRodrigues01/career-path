@@ -1,3 +1,4 @@
+using Api.Filter;
 using Api.Options.Authentication;
 using Infra.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,7 +17,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 builder.Services.ConfigureOptions<JwtOptionsSetup>();
 builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ApplicationExceptionFilter>();
+});
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
