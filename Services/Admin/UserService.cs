@@ -24,7 +24,9 @@ namespace Services.Admin
             {
                 Name = signUpDTO.Name,
                 Username = signUpDTO.UserName,
-                HashedPassword = PasswordHasher.Hash(signUpDTO.Password)
+                HashedPassword = PasswordHasher.Hash(signUpDTO.Password),
+                Email = signUpDTO.Email,
+                IsEnabled = true
             };
 
             await _userRepository.RegisterUser(user);
@@ -35,10 +37,16 @@ namespace Services.Admin
             var user = await _userRepository.GetUserByUsername(loginDTO.UserName);
 
             if (user == null)
-                throw new Exception("User not found");
+                throw new Exception("User not found.");
 
             if(!PasswordHasher.Verify(user.HashedPassword, loginDTO.Password))
                 throw new Exception(ErrorMessages.Unable_Login);
+
+            if(user.IsEnabled == false)
+                throw new NonAuthoritativeException("Inactive user, contact support.");
+
+            user.LastLogin = DateTime.Now;
+            user = await _userRepository.Update(user);
 
             var token = _jwtService.GenerateAdmin(user);
 
@@ -46,6 +54,18 @@ namespace Services.Admin
             {
                 Token = token,
             };
+        }
+
+        public async Task DisableAbsentUsers()
+        {
+            var users = await _userRepository.GetAbsentUsers();
+
+            users.ForEach(user =>
+            {
+                user.IsEnabled = false;
+            });
+
+            await _userRepository.UpdateRange(users);
         }
     }
 }

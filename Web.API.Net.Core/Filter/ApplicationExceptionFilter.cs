@@ -19,6 +19,15 @@ namespace Api.Filter
                     exception.Message
                 }));
             }
+            else if (context.Exception is NonAuthoritativeException)
+            {
+                var exception = context.Exception as NonAuthoritativeException;
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NonAuthoritativeInformation;
+                context.Result = new ObjectResult(new ServiceResponse<object>(false, new List<string>
+                {
+                    exception.Message
+                }));
+            }
 
             else
                 UnknownError(context);

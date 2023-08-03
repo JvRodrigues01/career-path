@@ -7,5 +7,6 @@ namespace Services.Admin
     {
         Task RegisterUser(AdminSignUpDTO signUpDTO);
         Task<AdminAuthDTO> HandleAdminLogin(AdminLoginDTO loginDTO);
+        Task DisableAbsentUsers();
     }
 }

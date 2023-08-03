@@ -1,5 +1,8 @@
 using Api.Filter;
+using Api.HangFireJobs;
 using Api.Options.Authentication;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Infra.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +23,13 @@ builder.Services.Scan(selector => selector
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer();
+
+builder.Services.AddHangfire(options =>
+{
+    options.UseMemoryStorage();
+});
+
+builder.Services.AddHangfireServer();
 
 builder.Services.AddAuthorization();
 builder.Services.ConfigureOptions<JwtOptionsSetup>();
@@ -61,7 +71,12 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddScoped<IHangFireJobs, HangFireJobs>();
+
 var app = builder.Build();
+
+app.UseHangfireServer();
+app.UseHangfireDashboard();
 
 if (app.Environment.IsDevelopment())
 {
@@ -85,5 +100,7 @@ app.UseCors(builder =>
 });
 
 app.MapControllers();
+
+RecurringJob.AddOrUpdate<IHangFireJobs>(job => job.DisableAbsentUsers(), Cron.MinuteInterval(1));
 
 app.Run();
