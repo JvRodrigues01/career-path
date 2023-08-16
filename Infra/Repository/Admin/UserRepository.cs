@@ -44,8 +44,8 @@ namespace Infra.Repository.Admin
 
         public async Task<List<User>> GetAbsentUsers()
         {
-            return await _context.Users
-                .Where(x => x.LastLogin.HasValue && x.LastLogin.Value <= DateTime.Today.AddDays(-7))
+            return await _context.Users.AsNoTracking()
+                .Where(x => x.LastLogin.HasValue && x.LastLogin.Value <= DateTime.Today.AddDays(-7) && x.IsEnabled)
                 .ToListAsync();
         }
     }

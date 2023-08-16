@@ -1,4 +1,4 @@
-﻿namespace Api.HangFireJobs
+﻿namespace Api.HangFire
 {
     public interface IHangFireJobs
     {

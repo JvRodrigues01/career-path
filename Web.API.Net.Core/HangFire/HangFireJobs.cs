@@ -1,6 +1,6 @@
 ﻿using Services.Admin;
 
-namespace Api.HangFireJobs
+namespace Api.HangFire
 {
     public class HangFireJobs : IHangFireJobs
     {
