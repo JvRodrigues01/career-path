@@ -1,5 +1,4 @@
 ﻿using Domain.Dtos.Admin;
-using Domain.Entities.User;
 
 namespace Services.Admin
 {

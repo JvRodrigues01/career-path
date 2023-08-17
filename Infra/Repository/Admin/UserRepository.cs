@@ -1,4 +1,4 @@
-﻿using Domain.Entities.User;
+﻿using Domain.Entities.Admin;
 using Infra.Context;
 using Microsoft.EntityFrameworkCore;
 

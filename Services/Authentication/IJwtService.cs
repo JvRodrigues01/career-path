@@ -1,4 +1,4 @@
-﻿using Domain.Entities.User;
+﻿using Domain.Entities.Admin;
 
 namespace Services.Authentication
 {

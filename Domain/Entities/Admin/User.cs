@@ -1,6 +1,6 @@
 ﻿using Domain.Entities.Inheritance;
 
-namespace Domain.Entities.User
+namespace Domain.Entities.Admin
 {
     public class User : EntityBase
     {

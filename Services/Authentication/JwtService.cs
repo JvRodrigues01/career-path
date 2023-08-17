@@ -4,7 +4,7 @@ using Domain.Options;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Domain.Entities.User;
+using Domain.Entities.Admin;
 
 namespace Services.Authentication
 {

@@ -1,5 +1,5 @@
 ﻿using Domain.Dtos.Admin;
-using Domain.Entities.User;
+using Domain.Entities.Admin;
 using Domain.Exceptions;
 using Infra.Repository.Admin;
 using SecureIdentity.Password;

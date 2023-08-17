@@ -4,6 +4,7 @@ using Api.Options.Authentication;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Infra.Context;
+using Infra.Mappings.Admin;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -109,7 +110,8 @@ namespace Api.Configs
         public static IServiceCollection AddNHibernate(this IServiceCollection services, IConfiguration configuration)
         {
             var mapper = new ModelMapper();
-            mapper.AddMappings(typeof(DependencyInjection).Assembly.ExportedTypes);
+            mapper.AddMappings(typeof(CategoryMapping).Assembly.ExportedTypes);
+            mapper.AddMappings(typeof(ProductMapping).Assembly.ExportedTypes);
             HbmMapping entityMapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
 
             string connectionString = configuration.GetConnectionString("DefaultConnection");
