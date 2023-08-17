@@ -11,8 +11,6 @@ namespace Infra.Mappings.Admin
         {
             Id(x => x.Id, b =>
             {
-                b.Generator(Generators.Increment);
-                b.Type(NHibernateUtil.Int64);
                 b.Column("Id");
             });
 
@@ -34,7 +32,6 @@ namespace Infra.Mappings.Admin
 
             Property(x => x.IsEnabled, b =>
             {
-                b.Type(NHibernateUtil.Byte);
                 b.NotNullable(true);
                 b.Column("IsEnabled");
             });

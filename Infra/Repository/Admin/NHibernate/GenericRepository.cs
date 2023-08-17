@@ -1,24 +1,24 @@
-﻿using Domain.Entities.Admin;
-using NHibernate;
+﻿using NHibernate;
 
 namespace Infra.Repository.Admin.NHibernate
 {
-    public class CategoryRepository : IGenericRepository<Category>
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly ISession _session;
-        public CategoryRepository(ISession session)
+        public GenericRepository(ISession session)
         {
             _session = session;
         }
 
-        public async Task Create(Category category)
+        public async Task<T> Create(T item)
         {
             ITransaction transaction = null;
             try
             {
                 transaction = _session.BeginTransaction();
-                await _session.SaveAsync(category);
+                await _session.SaveAsync(item);
                 await transaction.CommitAsync();
+                return item;
             }
             catch (Exception)
             {
@@ -31,20 +31,21 @@ namespace Infra.Repository.Admin.NHibernate
             }
         }
 
-        public async Task<Category> GetById(Guid id) =>
-            await _session.GetAsync<Category>(id);
+        public async Task<T> GetById(Guid id) =>
+            await _session.GetAsync<T>(id);
 
-        public IEnumerable<Category> List() =>
-            _session.Query<Category>().ToList();
-        public async Task<Category> Update(Category category)
+        public async Task<IEnumerable<T>> List() => 
+            _session.Query<T>().ToList();
+
+        public async Task<T> Update(T item)
         {
             ITransaction transaction = null;
             try
             {
                 transaction = _session.BeginTransaction();
-                await _session.UpdateAsync(category);
+                await _session.UpdateAsync(item);
                 await transaction.CommitAsync();
-                return category;
+                return item;
             }
             catch (Exception)
             {
@@ -57,17 +58,16 @@ namespace Infra.Repository.Admin.NHibernate
             }
         }
 
-        public async Task<Category> Delete(Guid id)
+        public async Task<T> Delete(Guid id)
         {
             ITransaction transaction = null;
             try
             {
                 transaction = _session.BeginTransaction();
-                var category = await _session.GetAsync<Category>(id);
-                category.IsEnabled = false;
-                await _session.UpdateAsync(category);
+                var item = await _session.GetAsync<T>(id);
+                await _session.DeleteAsync(item);
                 await transaction.CommitAsync();
-                return category;
+                return item;
             }
             catch (Exception)
             {

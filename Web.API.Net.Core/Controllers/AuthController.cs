@@ -27,7 +27,6 @@ namespace Api.Controllers
             return ApiOk(await _userService.HandleAdminLogin(loginDto));
         }
 
-
         [HttpPost("/admin/register")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ServiceResponse<SingleResponse<EmptyResult>>))]
         public async Task<IActionResult> RegisterUser([FromBody] AdminSignUpDTO signUpDTO)
