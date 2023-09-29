@@ -13,6 +13,7 @@ using NHibernate.Cfg.MappingSchema;
 using NHibernate.Dialect;
 using NHibernate.Mapping.ByCode;
 using Scrutor;
+using Services.AutoMapper;
 
 namespace Api.Configs
 {
@@ -34,6 +35,8 @@ namespace Api.Configs
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsMatchingInterface()
                 .WithScopedLifetime());
+
+            services.AddAutoMapper(typeof(AutoMapperProfile));
 
             return services;
         }

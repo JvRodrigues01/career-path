@@ -5,10 +5,10 @@ namespace Services.Admin
 {
     public interface IProductService
     {
-        Task<Product> Create(ProductDTO product);
-        Task<Product> GetById(Guid id);
+        Task<ProductDTO> Create(ProductDTO product);
+        Task<ProductDTO> GetById(Guid id);
+        Task<ProductDTO> Update(Guid id, ProductDTO product);
         Task<IEnumerable<Product>> List();
-        Task<Product> Update(Guid id, ProductDTO product);
-        Task<Product> Delete(Guid id);
+        Task<ProductDTO> Delete(Guid id);
     }
 }
