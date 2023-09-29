@@ -52,7 +52,6 @@ namespace Services.Admin
             var model = await _repository.GetByIdAsync(id);
             await _repository.DeleteAsync(model);
 
-
             var dto = _mapper.Map<ProductDTO>(model);
             return dto;
         }

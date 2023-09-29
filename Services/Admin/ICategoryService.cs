@@ -5,10 +5,10 @@ namespace Services.Admin
 {
     public interface ICategoryService
     {
-        Task<Category> Create(CategoryDTO category);
-        Task<Category> GetById(Guid id);
-        Task<Category> Update(Guid id, CategoryDTO category);
-        Task<Category> Delete(Guid id);
+        Task<CategoryDTO> Create(CategoryDTO category);
+        Task<CategoryDTO> GetById(Guid id);
+        Task<CategoryDTO> Update(Guid id, CategoryDTO category);
+        Task<CategoryDTO> Delete(Guid id);
         Task<IEnumerable<Category>> List();
     }
 }
