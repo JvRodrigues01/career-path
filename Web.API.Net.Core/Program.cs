@@ -8,7 +8,7 @@ IConfiguration configuration = builder.Configuration;
 
 builder.Services
     .AddDatabaseContext(configuration)
-    .AddNHibernate(configuration)
+    //.AddNHibernate(configuration)
     .AddInfrastructureAndServices()
     .AddHangfireSettings()
     .AddAuthenticationAndAuthorization()
@@ -42,6 +42,6 @@ app.UseCors(builder =>
 
 app.MapControllers();
 
-RecurringJob.AddOrUpdate<IHangFireJobs>(job => job.DisableAbsentUsers(), Cron.MinuteInterval(1));
+//RecurringJob.AddOrUpdate<IHangFireJobs>(job => job.DisableAbsentUsers(), Cron.MinuteInterval(1));
 
 app.Run();

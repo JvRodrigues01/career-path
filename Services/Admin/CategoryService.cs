@@ -1,6 +1,6 @@
 ﻿using Domain.Dtos.Admin;
 using Domain.Entities.Admin;
-using Infra.Repository.Admin.NHibernate;
+using Infra.Repository.Admin;
 
 namespace Services.Admin
 {
@@ -18,34 +18,30 @@ namespace Services.Admin
                 Description = category.Description,
             };
 
-            return await _repository.Create(model);
+            return await _repository.AddAsync(model);
         }
 
         public async Task<Category> Update(Guid id, CategoryDTO category)
         {
-            var model = await _repository.GetById(id);
+            var model = await _repository.GetByIdAsync(id);
 
             model.Name = category.Name;
             model.Description = category.Description;
-            model.IsEnabled = category.IsEnabled;
-            model.UpdatedAt = DateTime.Now;
 
-            return await _repository.Update(model);
+            return await _repository.UpdateAsync(model);
         }
 
         public async Task<Category> GetById(Guid id) =>
-            await _repository.GetById(id);
+            await _repository.GetByIdAsync(id);
 
         public async Task<IEnumerable<Category>> List() =>
-            await _repository.List();
+            await _repository.GetAllAsync();
 
         public async Task<Category> Delete(Guid id)
         {
-            var model = await _repository.GetById(id);
+            var model = await _repository.GetByIdAsync(id);
 
-            model.IsEnabled = false;
-
-            return await _repository.Update(model);
+            return await _repository.DeleteAsync(model);
         }
     }
 }

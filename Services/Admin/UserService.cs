@@ -26,7 +26,6 @@ namespace Services.Admin
                 Username = signUpDTO.UserName,
                 HashedPassword = PasswordHasher.Hash(signUpDTO.Password),
                 Email = signUpDTO.Email,
-                IsEnabled = true
             };
 
             await _userRepository.RegisterUser(user);

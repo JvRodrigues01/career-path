@@ -1,56 +1,48 @@
 ﻿using Domain.Entities.Admin;
-using NHibernate;
-using NHibernate.Mapping.ByCode;
-using NHibernate.Mapping.ByCode.Conformist;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infra.Mappings.Admin
 {
-    public class CategoryMapping : ClassMapping<Category>
+    public class CategoryMapping : IEntityTypeConfiguration<Category>
     {
-        public CategoryMapping() 
+        public void Configure(EntityTypeBuilder<Category> builder)
         {
-            Id(x => x.Id, b =>
-            {
-                b.Column("Id");
-            });
+            builder.ToTable("Category");
+            builder.HasKey(x => x.Id);
 
-            Property(x => x.Name, b =>
-            {
-                b.Length(50);
-                b.Type(NHibernateUtil.String);
-                b.NotNullable(true);
-                b.Column("Name");
-            });
+            builder.Property(x => x.Id)
+               .ValueGeneratedOnAdd();
 
-            Property(x => x.Description, b =>
-            {
-                b.Length(280);
-                b.Type(NHibernateUtil.String);
-                b.NotNullable(true);
-                b.Column("Description");
-            });
+            builder.Property(x => x.Name)
+                .IsRequired()
+                .HasColumnName("Name")
+                .HasColumnType("NVARCHAR")
+                .HasMaxLength(200);
 
-            Property(x => x.IsEnabled, b =>
-            {
-                b.NotNullable(true);
-                b.Column("IsEnabled");
-            });
+            builder.Property(x => x.Description)
+                .IsRequired()
+                .HasColumnName("Description")
+                .HasColumnType("NVARCHAR")
+                .HasMaxLength(500);
 
-            Property(x => x.CreatedAt, b =>
-            {
-                b.Column("CreatedAt");
-                b.NotNullable(true);
-                b.Type(NHibernateUtil.DateTime);
-            });
+            builder.Property(x => x.IsEnabled)
+                .HasColumnName("IsEnabled")
+                .HasColumnType("tinyint");
 
-            Property(x => x.UpdatedAt, b =>
-            {
-                b.Column("UpdatedAt");
-                b.NotNullable(true);
-                b.Type(NHibernateUtil.DateTime);
-            });
+            builder.Property(x => x.CreatedAt)
+                .IsRequired()
+                .HasColumnName("CreatedAt")
+                .HasColumnType("SMALLDATETIME");
 
-            Table("Category");
+            builder.Property(x => x.UpdatedAt)
+                .IsRequired()
+                .HasColumnName("UpdatedAt")
+                .HasColumnType("SMALLDATETIME");
+
+            builder.HasMany(x => x.Products)
+                .WithOne(x => x.Category)
+                .HasForeignKey(x => x.IdCategory);
         }
     }
 }

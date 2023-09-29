@@ -1,7 +1,5 @@
 ﻿using Api.Controllers.Abstract;
 using Domain.Dtos.Admin;
-using Domain.Entities.Admin;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Admin;
 
