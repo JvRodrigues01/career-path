@@ -1,5 +1,5 @@
-﻿using Api.Tests.DTOFaker.CategoryDTOFaker;
-using Api.Tests.EntityFaker.Admin;
+﻿using Tests.DTOFaker.CategoryDTOFaker;
+using Tests.EntityFaker.Admin;
 using Domain.Entities.Admin;
 using Domain.Exceptions;
 using FluentAssertions;
@@ -7,7 +7,7 @@ using Infra.Repository.Admin;
 using Moq;
 using Services.Admin;
 
-namespace Api.Tests.AdminTests.CategoryTests
+namespace Tests.AdminTests.CategoryTests
 {
     public class CategoryTests : BaseTest
     {
@@ -22,7 +22,7 @@ namespace Api.Tests.AdminTests.CategoryTests
         public async Task Test_Create()
         {
             var categoryDto = new CategoryDTOFaker().Generate();
-            
+
             var category = new CategoryFaker().Generate();
 
             GetMock<IGenericRepository<Category>>().Setup(x => x.AddAsync(It.IsAny<Category>())).ReturnsAsync(category);

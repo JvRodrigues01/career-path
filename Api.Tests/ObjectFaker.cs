@@ -1,6 +1,6 @@
 ﻿using Bogus;
 
-namespace Api.Tests
+namespace Tests
 {
     public class ObjectFaker<T> : Faker<T> where T : class
     {

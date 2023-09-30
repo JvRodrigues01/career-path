@@ -1,7 +1,8 @@
 ﻿using Domain.Dtos.Admin;
 using Domain.Entities.Admin;
+using Tests;
 
-namespace Api.Tests.DTOFaker.ProductDTOFaker
+namespace Tests.DTOFaker.ProductDTOFaker
 {
     public class ProductDTOFaker : ObjectFaker<ProductDTO>
     {

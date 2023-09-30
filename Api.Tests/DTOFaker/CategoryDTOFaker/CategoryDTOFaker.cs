@@ -1,10 +1,11 @@
 ﻿using Domain.Dtos.Admin;
+using Tests;
 
-namespace Api.Tests.DTOFaker.CategoryDTOFaker
+namespace Tests.DTOFaker.CategoryDTOFaker
 {
     public class CategoryDTOFaker : ObjectFaker<CategoryDTO>
     {
-        public CategoryDTOFaker() 
+        public CategoryDTOFaker()
         {
             UsePrivateConstructor()
                 .RuleFor(c => c.Name, c => c.Name.FullName())

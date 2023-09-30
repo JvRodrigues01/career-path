@@ -1,6 +1,7 @@
 ﻿using Domain.Entities.Admin;
+using Tests;
 
-namespace Api.Tests.EntityFaker.Admin
+namespace Tests.EntityFaker.Admin
 {
     public class CategoryFaker : ObjectFaker<Category>
     {

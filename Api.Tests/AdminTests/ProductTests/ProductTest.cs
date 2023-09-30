@@ -1,5 +1,5 @@
-using Api.Tests.DTOFaker.ProductDTOFaker;
-using Api.Tests.EntityFaker.Admin;
+using Tests.DTOFaker.ProductDTOFaker;
+using Tests.EntityFaker.Admin;
 using Domain.Entities.Admin;
 using Domain.Exceptions;
 using FluentAssertions;
@@ -7,7 +7,7 @@ using Infra.Repository.Admin;
 using Moq;
 using Services.Admin;
 
-namespace Api.Tests.AdminTests.ProductTests
+namespace Tests.AdminTests.ProductTests
 {
     public class ProductTest : BaseTest
     {

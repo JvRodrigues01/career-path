@@ -2,7 +2,7 @@
 using Moq;
 using Moq.AutoMock;
 
-namespace Api.Tests
+namespace Tests
 {
     public class BaseTest : IClassFixture<ApiFixure>
     {
@@ -13,7 +13,7 @@ namespace Api.Tests
             ResetMockCalls();
         }
 
-        public void AddMapper() => _autoMocker.Use<IMapper>(Mapper);
+        public void AddMapper() => _autoMocker.Use(Mapper);
 
         public T GetService<T>() where T : class
             => _autoMocker.CreateInstance<T>();
