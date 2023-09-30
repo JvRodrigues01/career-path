@@ -24,6 +24,12 @@ namespace Api.Configs
             string connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.InstanceName = configuration.GetSection("Redis:InstanceName").Value;
+                options.Configuration = configuration.GetSection("Redis:Configuration").Value;
+            });
+
             return services;
         }
 

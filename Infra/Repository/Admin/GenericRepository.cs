@@ -1,6 +1,8 @@
 ﻿using Domain.Entities.Inheritance;
+using Infra.Caching;
 using Infra.Context;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Linq.Expressions;
 
 namespace Infra.Repository.Admin
@@ -9,21 +11,45 @@ namespace Infra.Repository.Admin
     {
         private readonly AppDbContext _context;
         private readonly DbSet<T> _dbSet;
+        private readonly ICachingService _cache;
 
-        public GenericRepository(AppDbContext context)
+        public GenericRepository(AppDbContext context, ICachingService cache)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _dbSet = _context.Set<T>();
+            _cache = cache;
         }
 
         public virtual async Task<T> GetByIdAsync(Guid id)
         {
-            return await _dbSet.FindAsync(id);
+            var cache = await _cache.GetAsync(id.ToString());
+
+            if (!string.IsNullOrWhiteSpace(cache))
+            {
+                return JsonConvert.DeserializeObject<T>(cache);
+            }
+
+            var response = await _dbSet.FindAsync(id);
+
+            await _cache.SetAsync(id.ToString(), JsonConvert.SerializeObject(response));
+
+            return response;
         }
 
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            var cache = await _cache.GetAsync(typeof(T).FullName);
+
+            if (!string.IsNullOrWhiteSpace(cache))
+            {
+                return JsonConvert.DeserializeObject<IEnumerable<T>>(cache);
+            }
+
+            var response = await _dbSet.ToListAsync();
+
+            await _cache.SetAsync(typeof(T).FullName, JsonConvert.SerializeObject(response));
+
+            return response;
         }
 
         public virtual async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
