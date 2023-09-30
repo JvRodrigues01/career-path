@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Dtos.Admin;
 using Domain.Entities.Admin;
+using Domain.Exceptions;
 using Infra.Repository.Admin;
 
 namespace Services.Admin
@@ -18,27 +19,25 @@ namespace Services.Admin
         public async Task<ProductDTO> Create(ProductDTO product)
         {
             var model = _mapper.Map<Product>(product);
-            await _repository.AddAsync(model);
+            var result = await _repository.AddAsync(model);
 
-            product.Id = model.Id;
-
-            return product;
+            return _mapper.Map<ProductDTO>(result);
         }
 
         public async Task<ProductDTO> Update(Guid id, ProductDTO product)
         {
-            var model = await _repository.GetByIdAsync(id);
+            var model = await _repository.GetByIdAsync(id) ?? throw new BadRequestException("Produto não encontrado");
 
             _mapper.Map(product, model);
 
-            await _repository.UpdateAsync(model);
+            var result = await _repository.UpdateAsync(model);
 
-            return product;
+            return _mapper.Map<ProductDTO>(result);
         }
 
         public async Task<ProductDTO> GetById(Guid id)
         {
-            var product = await _repository.GetByIdAsync(id);
+            var product = await _repository.GetByIdAsync(id) ?? throw new BadRequestException("Produto não encontrado");
             var dto = _mapper.Map<ProductDTO>(product);
 
             return dto;
@@ -49,11 +48,10 @@ namespace Services.Admin
 
         public async Task<ProductDTO> Delete(Guid id)
         {
-            var model = await _repository.GetByIdAsync(id);
-            await _repository.DeleteAsync(model);
+            var model = await _repository.GetByIdAsync(id) ?? throw new BadRequestException("Produto não encontrado");
+            var result = await _repository.DeleteAsync(model);
 
-            var dto = _mapper.Map<ProductDTO>(model);
-            return dto;
+            return _mapper.Map<ProductDTO>(result);
         }
     }
 }
