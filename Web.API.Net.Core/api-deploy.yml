@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapi-dotnet-core
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapi-dotnet-core
+  template:
+    metadata:
+      labels:
+        app: webapi-dotnet-core
+    spec:
+      containers:
+      - name: testeapi
+        image: jvrodrigues01/career-path-luby:latest # Substitua pelo nome da sua imagem
+        ports:
+        - containerPort: 80
